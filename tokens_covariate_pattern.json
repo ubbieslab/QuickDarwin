@@ -1,0 +1,30 @@
+{
+  "continuous": {
+    "power": {
+      "pk_fragment": "*{COV_ONE}**THETA({PARAM}~{COV})",
+      "theta_init": "(-4, 0.7, 4)"
+    },
+    "exponential": {
+      "pk_fragment": "*EXP({COV_ZERO}*THETA({PARAM}~{COV}))",
+      "theta_init": "(-1, 0.01, 4)"
+    }
+  },
+  "categorical": {
+    "default_relationships": [
+      "proportional",
+      "exponential"
+    ],
+    "relationships": {
+      "proportional": {
+        "theta_init": "(-0.95,0,4)"
+      },
+      "exponential": {
+        "theta_init": "(-4,0,4)"
+      },
+      "additive": {
+        "requires_user_bounds": true
+      }
+    }
+  }
+}
+

@@ -1,0 +1,24 @@
+{
+    "author": "User",
+    "algorithm": "EX",
+    "exhaustive_batch_size": 2000,
+	"random_seed":11,
+    "num_parallel": 36,
+    "crash_value": 99999999,
+
+    "penalty": {
+        "theta": 10,
+        "omega": 10,
+        "sigma": 10,
+        "convergence": 100,
+        "covariance": 100,
+        "correlation": 100,
+        "condition_number": 100,
+        "non_influential_tokens": 0.00001
+    },
+
+    "remove_run_dir": true,
+
+    "nmfe_path": "c:/nm750/util/nmfe75.bat",
+    "model_run_timeout": 6000
+}

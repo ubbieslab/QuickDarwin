@@ -1,0 +1,53 @@
+$PROBLEM    1,2,3 compartment pydarwin fitting
+$INPUT       ID TIME AMT RATE DV MDV EVID WT AGE SEX BUN SCR OCC
+
+$DATA      {data_dir}/data.csv IGNORE=@
+           
+$SUBROUTINE {ADVAN[1]} 
+ 
+$PK      
+ 
+  CWTKGONE = WT/81  ;; WEIGHT CENTERED ON ONE
+  CWTKGZERO = WT-81 ;; WEIGHT CENTERED ON ZERO
+  CAGE = AGE/60     ;; AGE CENTERED ON ONE
+  CSCR = SCR/0.9  
+  {IOVV[1]}  
+  {IOVCL[1]}  
+  {ADVAN[2]}
+  TVV=THETA(1){V~WT[1]}{V~SEX[1]}{V~AGE[1]}  *EXP(IOVV)
+  V1=TVV*EXP(ETA(2)) ;; V1 FOR TRANS 4, V FOR TRANS2  
+  
+  S1=V1
+  TVCL=THETA(2){CL~SCR[1]}{CL~WT[1]}{CL~SEX[1]}{CL~AGE[1]} *EXP(IOVCL)
+  CL=TVCL*EXP(ETA(1)) 
+    
+  {ADVAN[3]}    
+$ERROR     	
+ REP = IREP      
+ IPRED =F  
+ IOBS = F {RESERR[1]}
+ Y=IOBS
+$THETA      
+ (0,80) 	; THETA(1) V  UNITS = L  
+ (0,8) 		; THETA(2) CL UNITS = L/HR
+ {ADVAN[4]}   
+ {V~WT[2]}  
+ {V~SEX[2]} 
+ {V~AGE[2]}  
+ {CL~SCR[2]}
+ {CL~WT[2]} 
+ {CL~AGE[2]}
+ {CL~SEX[2]}  
+$OMEGA    
+ 0.1  		; ETA(1) CLEARANCE 
+ 0.4  		; ETA(2) VOLUME  
+  
+  {IOVV[2]}  
+  {IOVCL[2]}  
+{ADVAN[5]}  
+$SIGMA   
+ {RESERR[2]}
+
+$EST METHOD=COND INTER MAX = 9999 MSFO=MSF1  
+$COV UNCOND PRINT=E  PRECOND=1 PRECONDS=TOS  MATRIX = R
+ 
